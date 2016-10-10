@@ -1,0 +1,381 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>無標題文件</title>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<style>
+  body { font-family:微軟正黑體;
+         font-size:20px;
+         }
+
+  #homeMark { top:2px;}
+		 
+  .headerTop { position:fixed;
+			   display:block;
+	           z-index:99;
+			   top:0;
+			   left:0;	 
+			   background:rgba(255,255,255,0.70);
+			   width:100%;
+			   height:70px;}
+  
+  #dvGoTop { position:fixed;
+			 z-index:99;
+		     bottom:0;
+			 right:0;}
+			 
+  #Navigation div { height:70px;
+                    padding-top:20px;
+					text-align:center}
+  
+  #Navigation div:hover { background:rgba(0,0,0,0.34)}		  		 
+			 
+  #minNavigation { top:20px;
+                   font-size:30px;
+                   text-align:right;}	
+				   
+  #subNav { display:none;           
+			text-align:center;
+            width:100%;
+			border-radius:5pt;
+            background:rgba(231,186,71,0.80)}	
+			
+  #subNav a { text-decoration:none;
+              color:rgba(0,0,0,1.00);}	
+  
+  #subNav div:hover {background:rgba(0,0,0,0.30);}	
+  
+  #headRow { background-image:url(img/seamless-pattern-with-flip-flops-2087.png);}	
+  
+  #head { background:rgba(255,255,255,0.50);           
+		  display:table;
+		  height:400px;}	
+			   
+  #head div { height:100%;
+              font-size:40px;
+			  display:table;				   
+              text-align:center;}
+				   
+  #head div span { display: table-cell;
+				   vertical-align:middle;}  
+  		   
+  #headImg div { text-align:center;
+                 width:100%;
+				 height:50%;
+				 text-shadow:10px 10px 5px rgba(103,98,99,1.00);}
+				 
+  #headImg div:last-child { height:10%;}				 
+  
+  #headImg ul li { display:inline;}		
+  
+  #product { 
+             padding-left:20px; 
+             padding-bottom:20px;
+			 padding-right:40px;}
+  
+  #productShow,#productSearch { height:600px;
+                                border-color:rgba(39,203,223,1.00);
+                                border-style:solid;
+                                border-width:5px;
+                                border-radius:5pt;
+                                border-top-left-radius:20pt;
+                                background:rgba(39,203,223,0.70);} 
+  #productSearch input,select { border-radius:5pt;}								
+				 
+  #productShow { margin-left:20px;
+                 margin-right:-20px;}		 				 
+</style>
+<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script type="text/jscript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+	
+	//判斷目前瀏覽器寬度並作判定導覽列樣式	
+	
+	function viwe()
+	{
+	  if($(window).width()<768)
+	  {
+	    $("#Navigation").hide();	
+	    $("#minNavigation").show();
+		$("#productSearch").hide();
+	    $("body").css("font-size","10px");	
+		$("#headImg div img").css({"width":"12","height":"12"});	
+	  }else
+	  {
+	    $("#Navigation").show();	
+	    $("#minNavigation").hide();
+		$("#productSearch").show();
+	    $("body").css("font-size","20px");	
+		$("#headImg div img").css({"width":"24","height":"24"});	
+	  }	
+	}
+	
+	viwe();	  
+	
+	//瀏覽器縮放時變更導覽列樣式
+	$(window).resize(function(){
+	  viwe();
+	});
+	
+	//迷你導覽列點擊事件
+	$("#minNavigation").click(function(){
+	  var className = $("#minNavigation span").attr("class");	
+	  if(className=="glyphicon glyphicon-align-justify")
+	  {
+	    $("#minNavigation span").removeClass().addClass("glyphicon glyphicon-remove");	  
+	  }
+	  else
+	  {
+	    $("#minNavigation span").removeClass().addClass("glyphicon glyphicon-align-justify");		   
+	  }	 	
+	  $("#subNav").slideToggle();
+	});	 
+	  
+	//當網頁捲動時網頁不在最上層時header狀態  
+	$(window).scroll(function(){
+      if($(window).scrollTop()!=0)
+	  {		
+	    $(".headerTop").css("background","rgba(0,0,0,0.90)");					
+		
+		$("#Navigation div").hover(function(){
+		  $(this).css("background","rgba(255,255,255,0.30)");
+		},function(){
+		  $(this).css("background-color","transparent");
+		});
+      }   
+	  else
+	  {
+	    $(".headerTop").css("background","rgba(255,255,255,0.60)");	
+		
+		$("#Navigation div").hover(function(){
+		  $(this).css("background","rgba(0,0,0,0.30)");
+		},function(){
+		  $(this).css("background-color","transparent");
+		});
+		
+	  }
+	});
+	
+	
+	//點擊回最上層及標誌hover事件  
+    $(".goTop").click(function(){
+      $("body").animate({scrollTop: 0},600);
+	});	
+	$("#dvGoTop img").mouseover(function(){
+	  $(this).css({"border-style":"outset","border-width":"2px","border-radius":"5pt"});
+	});
+	$("#dvGoTop img").mouseout(function(){
+	  $(this).css({"border-style":"none","border-width":"0px"});
+	});
+	$("#dvGoTop img").mousedown(function(){
+	  $(this).css({"border-style":"inset","border-width":"2px","border-radius":"5pt"});
+	});
+	
+	//Home標誌hover事件
+	var imgWdh = $("#homeMark img").css("width").replace("px","");
+	var imgHit = $("#homeMark img").css("height").replace("px","");
+	
+	$("#homeMark img").hover(function(){
+	  $(this).animate({"width":"70px","height":"70px"},200,'easeOutBounce');}
+	  ,function(){
+	    $(this).css({"width":"64","height":"64"});
+    });
+	
+	
+	//輪播標語
+	var str=["歡迎來到ㄚ政<br/>的<br/>二手市集",
+	         "為了愛護地球<br/>讓我們將堪用的物品<br/>給需要的人",
+			 "歡迎大家支持與踴躍參與!!"];	
+			 
+	var index =0;
+	
+	$("#headImg div").eq(0).html(str[0]);
+	$("#headImg ul li:eq(0) img").attr("src"
+		,"img/1475963567_icon-ios7-circle-filled.png");	
+	
+	var headImg = setInterval(autoTurn,3000);
+	
+	function autoTurn()
+	{	   	
+	  if(index<str.length-1)
+	  {
+		index++; 		
+	    $("#headImg div").eq(0).html(str[index]);
+		$("#headImg ul li:eq("+(index-1)+") img").attr("src"
+		,"img/1475963560_icon-ios7-circle-outline.png");	
+		$("#headImg ul li:eq("+index+") img").attr("src"
+		,"img/1475963567_icon-ios7-circle-filled.png");		     	   	 
+	  }
+	  else
+	  {	
+	    index =0;
+		$("#headImg div").eq(0).html(str[index]);	  
+		$("#headImg ul li:eq("+(str.length-1)+") img").attr("src"
+		,"img/1475963560_icon-ios7-circle-outline.png");
+		$("#headImg ul li:eq(0) img").attr("src"
+		,"img/1475963567_icon-ios7-circle-filled.png");	
+	  }	  
+	}
+	
+	//輪播左右按鈕
+	$("#turnLeft").hover(function(){
+	  clearInterval(headImg);	   
+	},function(){
+	  headImg = setInterval(autoTurn,3000);
+	});
+	
+	$("#turnLeft").click(function(){
+	     turn(0,index-1,str.length-1);  
+	});	
+	
+	$("#turnRight").hover(function(){
+	  clearInterval(headImg);	  
+	},function(){
+	  headImg = setInterval(autoTurn,3000);
+	});
+	
+	$("#turnRight").click(function(){
+	    turn(str.length-2,0,index+1);
+	});
+	
+	function turn(x,y,z){
+	  $("#headImg ul li:eq("+(index)+") img").attr("src"
+		,"img/1475963560_icon-ios7-circle-outline.png");
+		
+      if(index>x)
+	  {
+	    index=y;
+		$("#headImg div").eq(0).html(str[index]);	
+		$("#headImg ul li:eq("+(index)+") img").attr("src"
+		,"img/1475963567_icon-ios7-circle-filled.png"); 	  
+	  }
+	  else
+	  {
+	    index=z;	  
+		$("#headImg div").eq(0).html(str[index]);
+		$("#headImg ul li:eq("+(index)+") img").attr("src"
+		,"img/1475963567_icon-ios7-circle-filled.png");  	  
+	  }		
+	};
+	
+	$(".view").click(function(){
+	  location.href="#main";
+	  $(window).scrollTop(340);	
+	});
+	
+  });//end ready
+    
+</script>
+</head>
+
+<body>
+<div class="container-fluid">
+  <div class="row">
+    <header class="headerTop">
+      <div class="col-xs-4" id="homeMark">
+        <a href="index.html"><img src="img/1475927374_Shop.png"/></a>
+      </div>
+      <div class="col-xs-8" id="minNavigation">
+        <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
+        <div id="subNav">
+          <a href="javascript:void(0);"><div></div></a>
+          <a href="javascript:void(0);" class="view"><div>觀看商品</div></a>
+          <a href="javascript:void(0);"><div>採購車</div></a>
+          <a href="javascript:void(0);"><div>訪客,您好</div></a>
+        </div>
+      </div>
+      <div class="col-xs-8" id="Navigation">
+        <a href="javascript:void(0);"><div class="col-sm-3"></div></a>
+        <a href="javascript:void(0);" class="view"><div class="col-sm-3">觀看商品</div></a>
+        <a href="javascript:void(0);"><div class="col-sm-3">採購車</div></a>
+        <a href="javascript:void(0);"><div class="col-sm-3">訪客,您好</div></a>
+      </div>
+    </header>
+  </div>
+  <div class="row" id="headRow">
+    <div id="head" class="col-xs-12">
+      <a href="javascript:void(0);" id="turnLeft">
+        <div class="col-xs-2">
+          <span class="glyphicon glyphicon-chevron-left"></span>
+        </div>
+      </a>
+      <div class="col-xs-8" id="headImg">
+        <br/>
+        <br/>
+        <div></div>
+        <div>
+          <span>
+            <ul>
+              <li><img src="img/1475963560_icon-ios7-circle-outline.png"/></li>
+              <li><img src="img/1475963560_icon-ios7-circle-outline.png"/></li>
+              <li><img src="img/1475963560_icon-ios7-circle-outline.png"/></li>
+            </ul>
+          </span>
+        </div>
+        
+      </div>
+      <a href="javascript:void(0);" id="turnRight">
+        <div class="col-xs-2">
+          <span class="glyphicon glyphicon-chevron-right"></span>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div><a name="main"></a></div>
+  <div class="row" id="product" >
+    <br/>
+    <div class="col-sm-3" id="productSearch">      
+      <div>
+        <span style="color:rgba(255,255,255,1.00);font-size:2em">商品搜尋</span>
+        <br/>
+        <br/>
+        商品資訊
+        <div style="background-color:white;border-radius:10pt; padding:10px;border:solid 1px;">
+          類型:
+          <br/>
+          <select>
+            <option value="書籍">書籍</option>
+            <option value="書籍">衣服</option>
+            <option value="書籍">手機</option>
+            <option value="書籍">其它</option>
+          </select>
+          <br/>
+          <br/>
+          商品名稱:
+          <br/>
+          <input type="text" size="12"/>
+          <br/>
+          <br/>
+         
+        </div>
+        商品價位
+        <div style="background-color:white;border-radius:10pt; padding:10px;border:solid 1px;">
+          區間:
+          <br/>
+          <input type="checkbox" value="<=100" name="price" /><=100
+          <br/>
+          <input type="checkbox" value="<=100" name="price" />100~1,000
+          <br/>
+          <input type="checkbox" value="<=100" name="price" />1,000~5,000
+          <br/>
+          <input type="checkbox" value="<=100" name="price" />5,000~10,000
+          <br/>
+          <input type="checkbox" value="<=100" name="price" />>10,000
+          <br/>
+        </div>
+        <div style="float:right;padding:10px;">
+          <input type="button" id="search" value="搜尋"/>&nbsp<input type="button" id="reset" value="清除"/>
+        </div>        
+      </div>     
+    </div>  
+    <div class="col-xs-12 col-sm-9" id="productShow">
+      
+    </div>  
+  </div>
+</div>  
+<div id="dvGoTop" class="goTop"><img src="img/1475923718_back_on_top.png"/></div>
+</body>
+</html>
