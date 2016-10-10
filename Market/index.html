@@ -6,8 +6,7 @@
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <style>
   body { font-family:微軟正黑體;
-         font-size:20px;
-         }
+         font-size:20px;}
 
   #homeMark { top:2px;}
 		 
@@ -22,8 +21,25 @@
   
   #dvGoTop { position:fixed;
 			 z-index:99;
-		     bottom:0;
-			 right:0;}
+		     bottom:20px;
+			 right:20px;}
+			 
+  .showSearch { display:none;
+                position:absolute;
+				z-index:90;
+		        top:80px;
+			    left:50px;}			 
+			 
+  #minSearch { display:none;
+               position:fixed;
+			   z-index:99;
+		       top:200px;
+			   left:0;}		
+  
+  #minSearch img { width:60px;
+                   height:60px;
+				   border-radius:10pt;
+				   background:rgba(95,87,87,0.50)}			   	 
 			 
   #Navigation div { height:70px;
                     padding-top:20px;
@@ -69,22 +85,33 @@
   
   #headImg ul li { display:inline;}		
   
-  #product { 
-             padding-left:20px; 
+  #product { padding-left:20px; 
              padding-bottom:20px;
 			 padding-right:40px;}
+			 
+  .product { height:600px;
+             border-color:rgba(39,203,223,1.00);
+             border-style:solid;
+             border-width:5px;
+             border-radius:5pt;
+             border-top-left-radius:20pt;
+             background:rgba(39,203,223,0.70);}								
   
-  #productShow,#productSearch { height:600px;
-                                border-color:rgba(39,203,223,1.00);
-                                border-style:solid;
-                                border-width:5px;
-                                border-radius:5pt;
-                                border-top-left-radius:20pt;
-                                background:rgba(39,203,223,0.70);} 
-  #productSearch input,select { border-radius:5pt;}								
-				 
+  .product input { border-radius:5pt;}
+  
+  #productSearch { z-index:91;}
+  				 
   #productShow { margin-left:20px;
-                 margin-right:-20px;}		 				 
+                 margin-right:-20px;}
+				 
+  #darkBlock { display:none;
+               position:fixed;
+			   z-index:90;
+			   background:rgba(0,0,0,0.70);
+			   top:0px;
+			   left:0px;
+			   height:100%;
+			   width:100%}				 		 				 
 </style>
 <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
@@ -101,18 +128,22 @@
 	    $("#Navigation").hide();	
 	    $("#minNavigation").show();
 		$("#productSearch").hide();
-	    $("body").css("font-size","10px");	
+		$("#minSearch").show();
+	    $("#head div").css("font-size","20px");			
 		$("#headImg div img").css({"width":"12","height":"12"});	
 	  }else
 	  {
 	    $("#Navigation").show();	
 	    $("#minNavigation").hide();
 		$("#productSearch").show();
-	    $("body").css("font-size","20px");	
+		$("#productSearch").css({"top":"","left":""});
+		$("#productSearch").removeClass("showSearch").show();			
+		$("#minSearch").hide();	
+	    $("#head div").css("font-size","40px");	
 		$("#headImg div img").css({"width":"24","height":"24"});	
 	  }	
 	}
-	
+		
 	viwe();	  
 	
 	//瀏覽器縮放時變更導覽列樣式
@@ -164,15 +195,54 @@
     $(".goTop").click(function(){
       $("body").animate({scrollTop: 0},600);
 	});	
-	$("#dvGoTop img").mouseover(function(){
-	  $(this).css({"border-style":"outset","border-width":"2px","border-radius":"5pt"});
+	
+	tagHover("#dvGoTop","5pt");
+		
+	//minSearch標誌hover & click事件 	
+	tagHover("#minSearch","8pt");
+	
+	var searchBool = true;
+	
+	$("#minSearch").click(function(){
+	  if(searchBool==true)
+	  {  
+	    $("body").append('<div id="darkBlock"></div>');
+		$("#darkBlock").fadeIn();  //一定要fadeIn(),不然body只會append並不會秀出來!! 
+	    $("#productSearch").addClass("showSearch").show();
+	  
+	    var width = $("#productSearch").width();
+	    var height = $(window).scrollTop()+70+"px";
+	  
+	    var center = alignCenter(width)+"px";
+	  
+	    $("#productSearch").css({"top":height,"left":center});	
+		searchBool=false;  
+	  }	
+	  else
+	  {
+		$("#darkBlock").fadeOut("normal",function(){
+		  $("#darkBlock").remove();
+		});  
+				
+	    $("#productSearch").removeClass("showSearch").hide();
+		$("#productSearch").css({"top":"","left":""});	
+		searchBool = true;
+	  }  
+
 	});
-	$("#dvGoTop img").mouseout(function(){
-	  $(this).css({"border-style":"none","border-width":"0px"});
+	
+	function tagHover(x,y)
+	{
+	  $(x).mouseover(function(){
+	    $(this).css({"border-style":"outset","border-width":"2px","border-radius":y});
+	  });
+	  $(x).mouseout(function(){
+	    $(this).css({"border-style":"none","border-width":"0px"});
+	  });	 
+	  $(x).mousedown(function(){
+	    $(this).css({"border-style":"inset","border-width":"2px","border-radius":y});
 	});
-	$("#dvGoTop img").mousedown(function(){
-	  $(this).css({"border-style":"inset","border-width":"2px","border-radius":"5pt"});
-	});
+	}
 	
 	//Home標誌hover事件
 	var imgWdh = $("#homeMark img").css("width").replace("px","");
@@ -261,10 +331,20 @@
 	  }		
 	};
 	
+	//讓觀看商品時網頁往上一點點
 	$(".view").click(function(){
 	  location.href="#main";
 	  $(window).scrollTop(340);	
 	});
+	
+	//讓元素至於瀏覽器中央的方法
+	function alignCenter(x)
+	{
+	  var xPos = ($(window).width()-x)/2;
+	  return xPos;
+	}
+	
+	
 	
   });//end ready
     
@@ -327,7 +407,7 @@
   <div><a name="main"></a></div>
   <div class="row" id="product" >
     <br/>
-    <div class="col-sm-3" id="productSearch">      
+    <div class="col-sm-4 product" id="productSearch">      
       <div>
         <span style="color:rgba(255,255,255,1.00);font-size:2em">商品搜尋</span>
         <br/>
@@ -346,7 +426,7 @@
           <br/>
           商品名稱:
           <br/>
-          <input type="text" size="12"/>
+          <input type="text" size="16"/>
           <br/>
           <br/>
          
@@ -355,15 +435,15 @@
         <div style="background-color:white;border-radius:10pt; padding:10px;border:solid 1px;">
           區間:
           <br/>
-          <input type="checkbox" value="<=100" name="price" /><=100
+          <input type="checkbox" value="<=100" name="price" />價格<=100
           <br/>
-          <input type="checkbox" value="<=100" name="price" />100~1,000
+          <input type="checkbox" value="<=100" name="price" />價格 100~1,000
           <br/>
-          <input type="checkbox" value="<=100" name="price" />1,000~5,000
+          <input type="checkbox" value="<=100" name="price" />價格 1,000~5,000
           <br/>
-          <input type="checkbox" value="<=100" name="price" />5,000~10,000
+          <input type="checkbox" value="<=100" name="price" />價格 5,000~10,000
           <br/>
-          <input type="checkbox" value="<=100" name="price" />>10,000
+          <input type="checkbox" value="<=100" name="price" />價格 >10,000
           <br/>
         </div>
         <div style="float:right;padding:10px;">
@@ -371,11 +451,20 @@
         </div>        
       </div>     
     </div>  
-    <div class="col-xs-12 col-sm-9" id="productShow">
+    <div class="col-xs-12 col-sm-8 product" id="productShow">
       
     </div>  
   </div>
-</div>  
-<div id="dvGoTop" class="goTop"><img src="img/1475923718_back_on_top.png"/></div>
+</div>
+<a href="javascript:void(0);">
+  <div id="minSearch">
+    <img src="img/1476109561_Search Computer.png"/>
+  </div>  
+</a>
+<a href="javascript:void(0);">
+  <div id="dvGoTop" class="goTop">
+    <img src="img/1475923718_back_on_top.png"/>
+  </div>
+</a>
 </body>
 </html>
