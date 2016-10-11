@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>無標題文件</title>
+<title>ㄚ政的二手市集</title>
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <style>
   body { font-family:微軟正黑體;
@@ -97,7 +97,7 @@
              border-top-left-radius:20pt;
              background:rgba(39,203,223,0.70);}								
   
-  .product input { border-radius:5pt;}
+  .product input,select { border-radius:5pt;}
   
   #productSearch { z-index:91;}
   				 
@@ -111,7 +111,12 @@
 			   top:0px;
 			   left:0px;
 			   height:100%;
-			   width:100%}				 		 				 
+			   width:100%}	
+ 
+  .turnHover div { border-width:1px;
+                   border-radius:10pt;}			   
+			   
+  .turnHover div:hover { background:rgba(0,0,0,0.10)}			   
 </style>
 <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
@@ -140,7 +145,8 @@
 		$("#productSearch").removeClass("showSearch").show();			
 		$("#minSearch").hide();	
 	    $("#head div").css("font-size","40px");	
-		$("#headImg div img").css({"width":"24","height":"24"});	
+		$("#headImg div img").css({"width":"24","height":"24"});
+		$("#darkBlock").remove();
 	  }	
 	}
 		
@@ -344,6 +350,14 @@
 	  return xPos;
 	}
 	
+	//商品搜尋清除
+	$("#searchReset").click(function(){
+	  $("#Pcategory").val("1");
+	  $("#Pname").val("");
+	  $(".price").each(function(){
+	    $(this).prop("checked",false);
+	  });
+	});
 	
 	
   });//end ready
@@ -377,7 +391,7 @@
   </div>
   <div class="row" id="headRow">
     <div id="head" class="col-xs-12">
-      <a href="javascript:void(0);" id="turnLeft">
+      <a href="javascript:void(0);" id="turnLeft" class="turnHover">
         <div class="col-xs-2">
           <span class="glyphicon glyphicon-chevron-left"></span>
         </div>
@@ -397,7 +411,7 @@
         </div>
         
       </div>
-      <a href="javascript:void(0);" id="turnRight">
+      <a href="javascript:void(0);" id="turnRight" class="turnHover">
         <div class="col-xs-2">
           <span class="glyphicon glyphicon-chevron-right"></span>
         </div>
@@ -416,17 +430,17 @@
         <div style="background-color:white;border-radius:10pt; padding:10px;border:solid 1px;">
           類型:
           <br/>
-          <select>
-            <option value="書籍">書籍</option>
-            <option value="書籍">衣服</option>
-            <option value="書籍">手機</option>
-            <option value="書籍">其它</option>
+          <select id="Pcategory">
+            <option value="1">書籍</option>
+            <option value="2">衣服</option>
+            <option value="3">手機</option>
+            <option value="4">其它</option>
           </select>
           <br/>
           <br/>
           商品名稱:
           <br/>
-          <input type="text" size="16"/>
+          <input type="text" id="Pname" size="16"/>
           <br/>
           <br/>
          
@@ -435,24 +449,24 @@
         <div style="background-color:white;border-radius:10pt; padding:10px;border:solid 1px;">
           區間:
           <br/>
-          <input type="checkbox" value="<=100" name="price" />價格<=100
+          <input type="checkbox" value="<=100" id="price1" class="price" />價格<=100
           <br/>
-          <input type="checkbox" value="<=100" name="price" />價格 100~1,000
+          <input type="checkbox" value="<=100" id="price2" class="price" />價格 100~1,000
           <br/>
-          <input type="checkbox" value="<=100" name="price" />價格 1,000~5,000
+          <input type="checkbox" value="<=100" id="price3" class="price" />價格 1,000~5,000
           <br/>
-          <input type="checkbox" value="<=100" name="price" />價格 5,000~10,000
+          <input type="checkbox" value="<=100" id="price4" class="price" />價格 5,000~10,000
           <br/>
-          <input type="checkbox" value="<=100" name="price" />價格 >10,000
+          <input type="checkbox" value="<=100" id="price5" class="price" />價格 >10,000
           <br/>
         </div>
         <div style="float:right;padding:10px;">
-          <input type="button" id="search" value="搜尋"/>&nbsp<input type="button" id="reset" value="清除"/>
+          <input type="button" id="search" value="搜尋"/>&nbsp<input type="button" id="searchReset" value="清除"/>
         </div>        
       </div>     
     </div>  
     <div class="col-xs-12 col-sm-8 product" id="productShow">
-      
+      <span style="color:rgba(255,255,255,1.00);font-size:2em">商品特區</span>
     </div>  
   </div>
 </div>
